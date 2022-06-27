@@ -51,7 +51,7 @@ const useDocker = async (apps) => {
       let labels = container.Labels;
 
       // Traefik labels for URL configuration
-      if (!('flame1.url' in labels)) {
+      if (!('flame.url1' in labels)) {
         for (const label of Object.keys(labels)) {
           if (/^traefik.*.frontend.rule/.test(label)) {
             // Traefik 1.x
@@ -59,7 +59,7 @@ const useDocker = async (apps) => {
 
             if (value.indexOf('Host') !== -1) {
               value = value.split('Host:')[1];
-              labels['flame1.url'] =
+              labels['flame.url1'] =
                 'https://' + value.split(',').join(';https://');
             }
           } else if (/^traefik.*?\.rule/.test(label)) {
@@ -75,7 +75,7 @@ const useDocker = async (apps) => {
               }
 
               if (domains.length > 0) {
-                labels['flame1.url'] = domains.join(';');
+                labels['flame.url1'] = domains.join(';');
               }
             }
           }
@@ -84,17 +84,17 @@ const useDocker = async (apps) => {
 
       // add each container as flame formatted app
       if (
-        'flame1.name' in labels &&
-        'flame1.url' in labels &&
+        'flame.name' in labels &&
+        'flame.url1' in labels &&
         /^app/.test(labels['flame.type'])
       ) {
-        for (let i = 0; i < labels['flame1.name'].split(';').length; i++) {
-          const names = labels['flame1.name'].split(';');
-          const urls = labels['flame1.url'].split(';');
+        for (let i = 0; i < labels['flame.name'].split(';').length; i++) {
+          const names = labels['flame.name'].split(';');
+          const urls = labels['flame.url1'].split(';');
           let icons = '';
 
-          if ('flame1.icon' in labels) {
-            icons = labels['flame1.icon'].split(';');
+          if ('flame.icon' in labels) {
+            icons = labels['flame.icon'].split(';');
           }
 
           dockerApps.push({
