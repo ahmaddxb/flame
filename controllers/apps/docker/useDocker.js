@@ -84,12 +84,12 @@ const useDocker = async (apps) => {
 
       // add each container as flame formatted app
       if (
-        'flame.name' in labels &&
+        'flame.name1' in labels &&
         'flame.url1' in labels &&
         /^app/.test(labels['flame.type'])
       ) {
-        for (let i = 0; i < labels['flame.name'].split(';').length; i++) {
-          const names = labels['flame.name'].split(';');
+        for (let i = 0; i < labels['flame.name1'].split(';').length; i++) {
+          const names = labels['flame.name1'].split(';');
           const urls = labels['flame.url1'].split(';');
           let icons = '';
 
